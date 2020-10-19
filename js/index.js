@@ -1,57 +1,57 @@
 import API from '../js/API';
 
-const form = document.getElementById('search-form');
-const input = document.getElementById('search-term');
-const output = document.getElementById('conclusion');
+const form = document.getElementById('form');
+const search = document.getElementById('search-term');
+const article = document.getElementsByTagName('article')[0];
 
-function submit(e) {
-    const term = input.value;
+function getResultsFromAPI(e) {
+    e.preventDefault();
+
+    const term = search.value;
 
     term == '' ?
         showMessage('Please add a search term', 'alert') :
         document.getElementsByTagName('header')[0].setAttribute('class', 'slide-out-top') ||
         document.getElementsByTagName('main')[0].setAttribute('class', 'slide-out');
 
-    e.preventDefault();
-
     API.search(term)
-        .then(conclusion => {
-            console.log(conclusion);
+        .then(results => {
+            console.log(results);
             let gallery = '<ul class="timeline">';
-            conclusion.forEach(post => {
-                let date = `${new Date(post.created * 1000).toUTCString()}`;
+            results.forEach(result => {
+                let date = `${new Date(result.created * 1000).toUTCString()}`;
                 gallery += `
                     <li class="timeline-item">
                         <div class="timeline-date">
-                            <span>submitted ${date} by &mdash; ${post.author}</span>
+                            <span>submitted ${date} by &mdash; ${result.author}</span>
                         </div>
                         <div class="timeline-content">
-                            <h3 class="timeline-title">${post.title}</h3>
+                            <h3 class="timeline-title">${result.title}</h3>
                             <p>
-                                ${post.selftext}
+                                ${result.selftext}
                             </p>
-                            <a href="https://reddit.com${post.permalink}" target="_blank" rel="noreferrer noopener">${post.num_comments} comments</a>
+                            <a href="https://reddit.com${result.permalink}" target="_blank" rel="noreferrer noopener">${result.num_comments} comments</a>
                         </div>
                     </li>
                 `;
             });
             gallery += '</ul>';
-            output.innerHTML = gallery;
+            article.innerHTML = gallery;
         });
 }
 
 function showMessage(message, className) {
+    const main = document.getElementsByTagName('main')[0];
+    const section = document.getElementsByTagName('section')[0];
     const div = document.createElement('div');
-    const main = document.getElementById('main');
-    const initiation = document.getElementById('initiation');
 
     div.className = `${className}`;
     div.appendChild(document.createTextNode(message));
-    main.insertBefore(div, initiation);
+    main.insertBefore(div, section);
 
     setTimeout(function () {
         document.querySelector('.alert').remove();
     }, 1500);
 }
 
-form.addEventListener('submit', submit);
+form.addEventListener('submit', getResultsFromAPI);

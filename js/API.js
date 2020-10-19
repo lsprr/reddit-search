@@ -1,8 +1,8 @@
-export default { 
+export default {
     search: function(term) {
         return fetch(`https://www.reddit.com/search.json?q=${term}&sort=relevant&limit=25`)
             .then(response => response.json())
-            .then(data => data.data.children.map(x => x.data))
+            .then(data => data.data.children.map(data => data.data))
             .catch(error => console.error(error));
     }
 }

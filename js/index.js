@@ -1,6 +1,9 @@
 import API from '../js/API';
 
+const main = document.getElementsByTagName('main')[0];
+const section = document.getElementsByTagName('section')[0];
 const form = document.getElementById('form');
+const div = document.createElement('div');
 const search = document.getElementById('search-term');
 const article = document.getElementsByTagName('article')[0];
 
@@ -16,10 +19,9 @@ function getResultsFromAPI(e) {
 
     API.search(term)
         .then(results => {
-            // console.log(results);
             let gallery = '<ul class="timeline">';
             results.forEach(result => {
-                let date = `${new Date(result.created * 1000).toUTCString()}`;
+                const date = `${new Date(result.created * 1000).toUTCString()}`;
                 gallery += `
                     <li class="timeline-item">
                         <div class="timeline-date">
@@ -41,10 +43,6 @@ function getResultsFromAPI(e) {
 }
 
 function showMessage(message, className) {
-    const main = document.getElementsByTagName('main')[0];
-    const section = document.getElementsByTagName('section')[0];
-    const div = document.createElement('div');
-
     div.className = `${className}`;
     div.appendChild(document.createTextNode(message));
     main.insertBefore(div, section);

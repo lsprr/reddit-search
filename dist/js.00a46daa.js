@@ -145,7 +145,10 @@ var _API = _interopRequireDefault(require("../js/API"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var main = document.getElementsByTagName('main')[0];
+var section = document.getElementsByTagName('section')[0];
 var form = document.getElementById('form');
+var div = document.createElement('div');
 var search = document.getElementById('search-term');
 var article = document.getElementsByTagName('article')[0];
 
@@ -155,7 +158,6 @@ function getResultsFromAPI(e) {
   term == '' ? showMessage('Please add a search term', 'alert') : document.getElementsByTagName('header')[0].setAttribute('class', 'slide-out-top') || document.getElementsByTagName('main')[0].setAttribute('class', 'slide-out');
 
   _API.default.search(term).then(function (results) {
-    // console.log(results);
     var gallery = '<ul class="timeline">';
     results.forEach(function (result) {
       var date = "".concat(new Date(result.created * 1000).toUTCString());
@@ -167,9 +169,6 @@ function getResultsFromAPI(e) {
 }
 
 function showMessage(message, className) {
-  var main = document.getElementsByTagName('main')[0];
-  var section = document.getElementsByTagName('section')[0];
-  var div = document.createElement('div');
   div.className = "".concat(className);
   div.appendChild(document.createTextNode(message));
   main.insertBefore(div, section);
@@ -207,7 +206,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "44741" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "34663" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
